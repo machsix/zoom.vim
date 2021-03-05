@@ -20,18 +20,26 @@ nmap - :ZoomOut<CR>
 
 " guifont size + 1
 function! s:ZoomIn()
-  let l:fsize = substitute(&guifont, '^.*:h\([^:]*\).*$', '\1', '')
-  let l:fsize += 1
-  let l:guifont = substitute(&guifont, ':h\([^:]*\)', ':h' . l:fsize, '')
-  let &guifont = l:guifont
+  let l:fg_old = split(&guifont, ',')
+  let l:fg_new = []
+  for item in l:fg_old
+    let l:fsize = substitute(item, '^.*:h\([^:]*\)$', '\1', '')
+    let l:fsize += 1
+    call add(fg_new, substitute(item, ':h\([^:]*\)', ':h' . l:fsize, ''))
+  endfor
+  let &guifont = join(fg_new, ',')
 endfunction
 
 " guifont size - 1
 function! s:ZoomOut()
-  let l:fsize = substitute(&guifont, '^.*:h\([^:]*\).*$', '\1', '')
-  let l:fsize -= 1
-  let l:guifont = substitute(&guifont, ':h\([^:]*\)', ':h' . l:fsize, '')
-  let &guifont = l:guifont
+  let l:fg_old = split(&guifont, ',')
+  let l:fg_new = []
+  for item in l:fg_old
+    let l:fsize = substitute(item, '^.*:h\([^:]*\)$', '\1', '')
+    let l:fsize -= 1
+    call add(fg_new, substitute(item, ':h\([^:]*\)', ':h' . l:fsize, ''))
+  endfor
+  let &guifont = join(fg_new, ',')
 endfunction
 
 " reset guifont size
